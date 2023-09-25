@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSaveJson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="40dp"
+        android:text="Guardar json"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnSaveAsObject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:text="Guardar como objeto"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSaveJson"
+        app:layout_constraintStart_toEndOf="@+id/btnSaveJson"
+        app:layout_constraintTop_toTopOf="@+id/btnSaveJson" />
+
+    <Button
+        android:id="@+id/btnReadJson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="leer json"
+        app:layout_constraintStart_toStartOf="@+id/btnSaveJson"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveJson" />
+
+    <Button
+        android:id="@+id/btnReadObj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="leer un objeto"
+        app:layout_constraintBottom_toBottomOf="@+id/btnReadJson"
+        app:layout_constraintStart_toEndOf="@+id/btnReadJson"
+        app:layout_constraintTop_toTopOf="@+id/btnReadJson" />
+
+    <Button
+        android:id="@+id/btnSaveSubdir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Guardar en subcarpeta"
+        app:layout_constraintStart_toStartOf="@+id/btnReadJson"
+        app:layout_constraintTop_toBottomOf="@+id/btnReadJson" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="texto a guardar"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="@+id/btnSaveSubdir"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveSubdir" />
+
+    <Button
+        android:id="@+id/btnSaveTexto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="guardar"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextText"
+        app:layout_constraintStart_toEndOf="@+id/editTextText"
+        app:layout_constraintTop_toTopOf="@+id/editTextText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
