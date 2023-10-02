@@ -3,10 +3,17 @@ package com.example.clase7;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
@@ -116,7 +123,80 @@ public class MainActivity extends AppCompatActivity {
             activityForResultLauncher.launch(intent);
 
         });
+
+        binding.btnDownloadManager.setOnClickListener(view -> {
+
+            String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+            // >=29
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ||
+                    ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED) {
+                descargarConDownloadManager();
+            }else{
+                launcher.launch(permission);
+            }
+
+        });
+
+        binding.btnSharedPref.setOnClickListener(view -> {
+            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor edit = preferences.edit();
+
+            edit.putInt("edad",20);
+            edit.putString("orden","nombrePrimero");
+
+            edit.apply();
+
+        });
+
+        binding.btnLeerSharedPref.setOnClickListener(view -> {
+            SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+            int edad = preferences.getInt("edad",0);
+            String orden = preferences.getString("orden","vacio");
+
+            if(edad > 0 && !orden.equals("vacio")){
+                Toast.makeText(this, "Edad: " + edad + " | orden: " + orden, Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, "No se encontraron shared pref", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
     }
+
+    public void descargarConDownloadManager(){
+        String fileName = "pucp.jpg";
+        String url = "http://maternet.edu.pe/sites/default/files/images/LOGO-PUCP.jpg";
+
+        //URL URi
+        Uri downloadUri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(downloadUri);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+        request.setAllowedOverRoaming(false);
+        request.setTitle(fileName);
+        request.setMimeType("image/jpeg");
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, File.separator + fileName);
+
+        DownloadManager dm = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        try {
+            dm.enqueue(request);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    ActivityResultLauncher<String> launcher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(),
+            isGranted -> {
+
+                if (isGranted) { // permiso concedido
+                    descargarConDownloadManager();
+                } else {
+                    Log.e("msg-test", "Permiso denegado");
+                }
+            });
 
     ActivityResultLauncher<Intent> activityForResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
